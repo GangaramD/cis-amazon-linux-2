@@ -13,6 +13,24 @@ This role will make significant changes to systems and could break the running o
 Ansible 2.7+
 Amazon Linux 2
 ```
+Amazon Linux 2 and SE Linux
+----------------
+By default SElinux is disabled via grub in amazon linux.
+
+The tasks in Section 1.6 of this role will enable SELinux. Alternatively, it can be manually enabled by following these steps:
+
+edit ```/boot/grub/menu.lst```
+Modifiy ```selinux=0  to  selinux=1```
+```vi /etc/selinux/config```
+
+update the SELINUX to `enforcing` save and Quit!!
+
+Also install the following package to allow the ansible SElinux module to function on the host.
+```yum install libselinux-python```
+
+A reboot will be neccessary for the changes to take effect.
+
+
 ## Role
 ```
 role: AmazonLinux-2-CIS

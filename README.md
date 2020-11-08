@@ -66,6 +66,7 @@ Refer to CIS_awslinux2_Benchmark_(level1, level1_and_level2, or level2).ymls for
 
 ```
 ansible-playbook -i inventory CIS_awslinux2_Benchmark/CIS_awslinux2_Benchmark-L1-L2.yml -vv
+```
 ## License
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this

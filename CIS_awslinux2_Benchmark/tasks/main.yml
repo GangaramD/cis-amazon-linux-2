@@ -1,0 +1,75 @@
+---
+## START COPYRIGHT NOTICE ##
+# AmazonLinux2-CIS Ansible Script
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+## END COPYRIGHT NOTICE ##
+# tasks file for AmazonLinux2CIS
+- name: "Check OS version and family"
+  fail:
+    msg: "FAIL | This role can only be executed on Amazon Linux 2 operating systems. {{ ansible_distribution }} {{ ansible_distribution_version }} is not supported."
+  when:
+    - ansible_distribution|lower == 'amazon'
+    - ansible_distribution_version is version_compare('2', '!=')
+  tags:
+    - always
+
+- name: "Check OS version and family"
+  debug:
+    msg: "PASS | This role can only be executed on Amazon Linux 2 operating systems."  
+  when:
+    - ansible_distribution|lower == 'amazon'
+    - ansible_distribution_version is version_compare('2', '==')
+  tags:
+    - always
+
+- name: "Check ansible version"
+  fail:
+    msg: "You must use ansible 2.7 or greater"
+  when: not ansible_version.full is version_compare('2.7', '>=')
+  tags:
+    - always
+
+- name: "Check ansible version"
+  debug:
+    msg: "PASS | The detected Ansible version is greater than 2.7"  
+  when: ansible_version.full is version_compare('2.7', '>=')
+  tags:
+    - always
+
+- import_tasks: prelim.yml
+  become: yes
+  tags:
+    - prelim_tasks
+    - always
+
+- import_tasks: section1.yml
+  become: yes
+  when: amazonlinux2cis_section1
+
+- import_tasks: section2.yml
+  become: yes
+  when: amazonlinux2cis_section2
+
+- import_tasks: section3.yml
+  become: yes
+  when: amazonlinux2cis_section3
+
+- import_tasks: section4.yml
+  become: yes
+  when: amazonlinux2cis_section4
+
+- import_tasks: section5.yml
+  become: yes
+  when: amazonlinux2cis_section5
+
+- import_tasks: section6.yml
+  become: yes
+  when: amazonlinux2cis_section6
+
+- import_tasks: post.yml
+  become: yes
+  tags:
+    - post_tasks
+    - always

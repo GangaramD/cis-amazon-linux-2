@@ -1,0 +1,1127 @@
+## START COPYRIGHT NOTICE ##
+# AmazonLinux2-CIS Ansible Script
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+## END COPYRIGHT NOTICE ##
+- name: "SCORED | 5.1.1 | PATCH | Ensure cron daemon is enabled"
+  systemd:
+    name: crond
+    enabled: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.1
+    - low
+
+- name: "SCORED | 5.1.2 | PATCH | Ensure permissions on /etc/crontab are configured"
+  file:
+    dest: /etc/crontab
+    owner: root
+    group: root
+    mode: 0600
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.2
+    - low
+
+- name: "SCORED | 5.1.3 | PATCH | Ensure permissions on /etc/cron.hourly are configured"
+  file:
+    dest: /etc/cron.hourly
+    owner: root
+    group: root
+    mode: 0600
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.3
+    - low
+
+- name: "SCORED | 5.1.4 | PATCH | Ensure permissions on /etc/cron.daily are configured"
+  file:
+    dest: /etc/cron.daily
+    owner: root
+    group: root
+    mode: 0600
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.4
+    - low
+
+- name: "SCORED | 5.1.5 | PATCH | Ensure permissions on /etc/cron.weekly are configured"
+  file:
+    dest: /etc/cron.weekly
+    owner: root
+    group: root
+    mode: 0600
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.5
+    - low
+
+- name: "SCORED | 5.1.6 | PATCH | Ensure permissions on /etc/cron.monthly are configured"
+  file:
+    dest: /etc/cron.monthly
+    owner: root
+    group: root
+    mode: 0600
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.6
+    - low
+
+- name: "SCORED | 5.1.7 | PATCH | Ensure permissions on /etc/cron.d are configured"
+  file:
+    dest: /etc/cron.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0600
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.7
+    - low
+
+- name: "SCORED | 5.1.8 | PATCH | Ensure at/cron is restricted to authorized users"
+  file:
+    dest: /etc/at.deny
+    state: absent
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.8
+    - low
+
+- name: "SCORED | 5.1.8 | PATCH | Ensure at/cron is restricted to authorized users"
+  file:
+    dest: /etc/at.allow
+    state: touch
+    owner: root
+    group: root
+    mode: 0600
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.8
+    - low
+
+- name: "SCORED | 5.1.8 | PATCH | Ensure at/cron is restricted to authorized users"
+  file:
+    dest: /etc/cron.deny
+    state: absent
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.8
+    - low
+
+- name: "SCORED | 5.1.8 | PATCH | Ensure at/cron is restricted to authorized users"
+  file:
+    dest: /etc/cron.allow
+    state: touch
+    owner: root
+    group: root
+    mode: 0600
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.1.8
+    - low
+
+- name: "SCORED | 5.1.8 | PATCH | Ensure at/cron is restricted to authorized users"
+  template:
+    src: etc/cron.allow.j2
+    dest: /etc/cron.allow
+    owner: root
+    group: root
+    mode: 0600
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_cron_allow_apply_template is defined and amazonlinux2cis_cron_allow_apply_template
+  tags:
+    - level1
+    - patch
+    - rule_5.1.8
+    - low
+
+- name: "SCORED | 5.2.1 | PATCH | Ensure permissions on /etc/ssh/sshd_config are configured"
+  file:
+    dest: /etc/ssh/sshd_config
+    state: file
+    owner: root
+    group: root
+    mode: 0600
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.1
+    - low
+
+- name: "SCORED | 5.2.2 | Ensure permissions on SSH private host key files are configured"
+  command: find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chown root:ssh_keys {} \;
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.2
+    - low
+
+- name: "SCORED | 5.2.2 | Ensure permissions on SSH private host key files are configured"
+  command: find /etc/ssh -xdev -type f -name 'ssh_host_*_key' -exec chmod 0640 {} \;
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.2
+    - low
+
+- name: "SCORED | 5.2.3 | Ensure permissions on SSH public host key files are configured"
+  command: find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chmod 0644 {} \;
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.3
+    - low
+
+- name: "SCORED | 5.2.3 | Ensure permissions on SSH public host key files are configured"
+  command: find /etc/ssh -xdev -type f -name 'ssh_host_*_key.pub' -exec chown root:root {} \;
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.3
+    - low
+
+- name: "SCORED | 5.2.4 | PATCH | Ensure SSH Protocol is set to 2"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^Protocol'
+    line: 'Protocol 2'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.4
+    - low
+
+- name: "SCORED | 5.2.5 | PATCH | Ensure SSH LogLevel is set to VERBOSE"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^LogLevel'
+    line: 'LogLevel VERBOSE'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.5
+    - low
+
+- name: "SCORED | 5.2.6 | PATCH | Ensure SSH X11 forwarding is disabled"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^X11Forwarding'
+    line: 'X11Forwarding no'
+  when:
+    - amazonlinux2cis_level2 is defined and amazonlinux2cis_level2
+  tags:
+    - level2
+    - patch
+    - rule_5.2.6
+    - low
+
+- name: "SCORED | 5.2.7 | PATCH | Ensure SSH MaxAuthTries is set to 4 or less"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^(#)?MaxAuthTries \d'
+    line: 'MaxAuthTries 4'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.7
+    - low
+
+- name: "SCORED | 5.2.8 | PATCH | Ensure SSH IgnoreRhosts is enabled"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^IgnoreRhosts'
+    line: 'IgnoreRhosts yes'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.8
+    - low
+
+- name: "SCORED | 5.2.9 | PATCH | Ensure SSH HostbasedAuthentication is disabled"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^HostbasedAuthentication'
+    line: 'HostbasedAuthentication no'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.9
+    - low
+
+- name: "SCORED | 5.2.10 | PATCH | Ensure SSH root login is disabled"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin no'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.10
+    - low
+
+- name: "SCORED | 5.2.11 | PATCH | Ensure SSH PermitEmptyPasswords is disabled"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitEmptyPasswords'
+    line: 'PermitEmptyPasswords no'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.11
+    - low
+
+- name: "SCORED | 5.2.12 | PATCH | Ensure SSH PermitUserEnvironment is disabled"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitUserEnvironment(.*)?$'
+    line: 'PermitUserEnvironment no'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.12
+    - low
+
+- name: "SCORED | 5.2.12 | PATCH | Ensure SSH PermitUserEnvironment is disabled"
+  replace:
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitUserEnvironment(.*)?$'
+    replace: 'PermitUserEnvironment no'
+  ignore_errors: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.12
+    - low
+
+- name: "Determine if FIPS is installed"
+  stat:
+    path: /root/fipsinstalled
+  register: root_fipsinstalled
+  tags:
+    - level1
+    - patch
+    - rule_5.2.13
+    - rule_5.2.14
+    - rule_5.2.15
+    - low
+
+- name: "SCORED | 5.2.13 | PATCH | Ensure only strong ciphers are used"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^Ciphers'
+    line: 'Ciphers {{ amazonlinux2cis_ssh_ciphers | quote }}'
+#    line: 'Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr'
+#  when: not root_fipsinstalled.exists
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.13
+    - low
+
+- name: "SCORED | 5.2.14 | PATCH | Ensure only strong MAC algorithms are used"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^MACs'
+    line: 'MACs {{ amazonlinux2cis_ssh_mac_algorithms | quote }}'
+    #    line: 'MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com'
+#  when: not root_fipsinstalled.exists
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.14
+    - low
+
+- name: "SCORED | 5.2.15 | PATCH | Ensure that strong Key Exchange algorithms are used"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^KexAlgorithms'
+    line: 'KexAlgorithms {{ amazonlinux2cis_ssh_kex_algorithms | quote }}'
+#    line: 'KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256'
+#  when: not root_fipsinstalled.exists
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.15
+    - low
+
+- name: "SCORED | 5.2.16 | PATCH | Ensure SSH Idle Timeout Interval is configured"
+  lineinfile:
+    state: absent
+    dest: /etc/ssh/sshd_config
+    regexp: '^ClientAliveInterval (?!300)'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.16
+    - low
+
+- name: "SCORED | 5.2.16 | PATCH | Ensure SSH Idle Timeout Interval is configured"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^ClientAliveInterval(.*)?$'
+    line: 'ClientAliveInterval 300'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.16
+    - low
+
+- name: "SCORED | 5.2.16 | PATCH | Ensure SSH Idle Timeout Interval is configured"
+  replace:
+    dest: /etc/ssh/sshd_config
+    regexp: '^ClientAliveInterval(.*)?$'
+    replace: 'ClientAliveInterval 300'
+  ignore_errors: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.16
+    - low
+
+- name: "SCORED | 5.2.16 | PATCH | Ensure SSH Idle Timeout Interval is configured"
+  lineinfile:
+    state: absent
+    dest: /etc/ssh/sshd_config
+    regexp: '^ClientAliveCountMax (?!0)'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.16
+    - low
+
+
+- name: "SCORED | 5.2.16 | PATCH | Ensure SSH Idle Timeout Interval is configured"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^ClientAliveCountMax(.*)?$'
+    line: 'ClientAliveCountMax 0'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.16
+    - low
+
+- name: "SCORED | 5.2.16 | PATCH | Ensure SSH Idle Timeout Interval is configured"
+  replace:
+    dest: /etc/ssh/sshd_config
+    regexp: '^ClientAliveCountMax(.*)?$'
+    replace: 'ClientAliveCountMax 0'
+  ignore_errors: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.16
+    - low
+
+- name: "SCORED | 5.2.17 | PATCH | Ensure SSH LoginGraceTime is set to one minute or less"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^LoginGraceTime(.*)?$'
+    line: 'LoginGraceTime 60'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.17
+    - low
+
+- name: "SCORED | 5.2.17 | PATCH | Ensure SSH LoginGraceTime is set to one minute or less"
+  replace:
+    dest: /etc/ssh/sshd_config
+    regexp: '^LoginGraceTime(.*)?$'
+    replace: 'LoginGraceTime 60'
+  ignore_errors: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.17
+    - low
+
+- name: "SCORED | 5.2.18 | PATCH | Ensure SSH access is limited"
+  debug:
+    msg: "Edit the /etc/ssh/sshd_config file to set one or more of the following parameters: AllowUsers <list>, AllowGroups <list>, DenyUsers <list>,DenyGroups <list>"
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.18
+    - medium
+
+- name: "SCORED | 5.2.19 | PATCH | Ensure SSH warning banner is configured"
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^Banner'
+    line: 'Banner /etc/issue.net'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.2.19
+    - low
+
+- name: "SCORED | 5.3.1 | PATCH | Ensure password creation requirements are configured"
+  lineinfile:
+    state: present
+    dest: /etc/security/pwquality.conf
+    regexp: '^{{ item.key }}'
+    line: '{{ item.key }} = {{ item.value }}'
+  with_items:
+    - { key: 'minlen',  value: '14' }
+    - { key: 'dcredit', value: '-1' }
+    - { key: 'ucredit', value: '-1' }
+    - { key: 'ocredit', value: '-1' }
+    - { key: 'lcredit', value: '-1' }
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.3.1
+    - low
+
+# auth required pam_faillock.so preauth audit silent deny=5 unlock_time=900
+# auth [default=die] pam_faillock.so authfail audit deny=5 unlock_time=900
+# START # auth required pam_faillock.so preauth audit silent deny=5 unlock_time=900 #
+- name: "SCORED | 5.3.2 | Ensure lockout for failed password attempts is configured"
+  pamd:
+    name: system-auth
+    type: auth
+    control: sufficient
+    module_path: pam_unix.so
+    new_type: auth
+    new_control: required
+    new_module_path: pam_faillock.so
+    module_arguments: 'preauth
+          audit
+          silent
+          deny=5
+          unlock_time=900'
+    state: before
+  ignore_errors: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_ad_ldap_joined_machine is defined and amazonlinux2cis_ad_ldap_joined_machine
+  tags:
+    - level1
+    - patch
+    - rule_5.3.2
+    - low
+
+- name: "SCORED | 5.3.2 | Ensure lockout for failed password attempts is configured"
+  pamd:
+    name: system-auth
+    type: auth
+    control: sufficient
+    module_path: pam_unix.so
+    new_type: auth
+    new_control: sufficient
+    new_module_path: pam_faillock.so
+    module_arguments: 'authsucc
+          audit
+          deny=5
+          unlock_time=900'
+    state: after
+  ignore_errors: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_ad_ldap_joined_machine is defined and amazonlinux2cis_ad_ldap_joined_machine
+  tags:
+    - level1
+    - patch
+    - rule_5.3.2
+    - low
+
+- name: "SCORED | 5.3.2 | Ensure lockout for failed password attempts is configured"
+  pamd:
+    name: system-auth
+    type: auth
+    control: sufficient
+    module_path: pam_unix.so
+    new_type: auth
+    new_control: "[default=die]"
+    new_module_path: pam_faillock.so
+    module_arguments: 'authfail
+          audit
+          deny=5
+          unlock_time=900'
+    state: after
+  ignore_errors: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_ad_ldap_joined_machine is defined and amazonlinux2cis_ad_ldap_joined_machine
+  tags:
+    - level1
+    - patch
+    - rule_5.3.2
+    - low
+
+- name: "SCORED | 5.3.2 | Ensure lockout for failed password attempts is configured"
+  pamd:
+    name: system-auth
+    type: auth
+    control: sufficient
+    module_path: pam_unix.so
+    new_control: '[success=1 default=bad]'
+    module_arguments: ''
+    state: updated
+  ignore_errors: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_ad_ldap_joined_machine is defined and amazonlinux2cis_ad_ldap_joined_machine
+  tags:
+    - level1
+    - patch
+    - rule_5.3.2
+    - low
+
+# START # password sufficient pam_unix.so remember=5 #
+# Determine if pam_unix.so or pam_pwhistory.so should be utilized
+- name: 'SCORED | 5.3.3 | Ensure password reuse is limited'
+  shell: 'grep -q "^password\s*sufficient\s*pam_unix\.so" /etc/pam.d/system-auth'
+  register: system_auth_password_check_pam_unix
+  failed_when: 'system_auth_password_check_pam_unix.rc > 1'
+  changed_when: false
+  ignore_errors: yes
+  become: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.3.3
+    - low
+
+- name: 'SCORED | 5.3.3 | Ensure password reuse is limited'
+  shell: 'grep -q "^password\s+required\s+pam_pwhistory\.so" /etc/pam.d/system-auth'
+  register: system_auth_password_check_pam_pwhistory
+  failed_when: 'system_auth_password_check_pam_pwhistory.rc > 1'
+  changed_when: false
+  ignore_errors: yes
+  become: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.3.3
+    - low
+
+# START # DEBUG STATEMENTS #
+# - debug:
+#     var: system_auth_password_check_pam_unix
+#   when:
+#     - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+#   tags:
+#     - level1
+#     - patch
+#     - rule_5.3.3
+#     - low
+
+
+# - debug:
+#     var: system_auth_password_check_pam_pwhistory
+#   when:
+#     - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+#   tags:
+#     - level1
+#     - patch
+#     - rule_5.3.3
+#     - low
+# END # DEBUG STATEMENTS #
+
+- name: 'SCORED | 5.3.3 | Ensure password reuse is limited'
+  pamd:
+    name: '{{ item }}'
+    type: password
+    control: sufficient
+    module_path: 'pam_unix.so'
+    module_arguments: 'remember=5'
+    state: args_present
+  ignore_errors: yes
+  loop:
+    - system-auth
+    - password-auth
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - system_auth_password_check_pam_unix.rc is defined and system_auth_password_check_pam_unix.rc == 0
+  tags:
+    - level1
+    - patch
+    - rule_5.3.3
+    - low
+
+
+- name: 'SCORED | 5.3.3 | Ensure password reuse is limited'
+  pamd:
+    name: '{{ item }}'
+    type: password
+    control: required
+    module_path: 'pam_pwhistory.so'
+    module_arguments: 'remember=5'
+    state: args_present
+  ignore_errors: yes
+  loop:
+    - system-auth
+    - password-auth
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - system_auth_password_check_pam_pwhistory.rc is defined and system_auth_password_check_pam_pwhistory.rc == 0
+  tags:
+    - level1
+    - patch
+    - rule_5.3.3
+    - low
+
+
+# END # password sufficient pam_unix.so remember=5 #
+
+# OLD # START #
+# - name: "SCORED | 5.3.3 | Ensure password reuse is limited | password-auth"
+#   pamd:
+#     name: password-auth
+#     type: password
+#     control: sufficient
+#     module_path: pam_pwhistory.so
+#     module_arguments: 'remember=5'
+#     state: updated
+#   ignore_errors: yes
+#   when:
+#     - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+#   tags:
+#     - level1
+#     - patch
+#     - rule_5.3.3
+#     - low
+
+# - name: "SCORED | 5.3.3 | Ensure password reuse is limited | system-auth"
+#   pamd:
+#     name: system-auth
+#     type: password
+#     control: sufficient
+#     module_path: pam_pwhistory.so
+#     module_arguments: 'remember=5'
+#     state: updated
+#   ignore_errors: yes
+#   when:
+#     - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+#   tags:
+#     - level1
+#     - patch
+#     - rule_5.3.3
+#     - low
+
+# OLD # END #
+
+# START # password sufficient pam_unix.so sha512 #
+
+- name: 'SCORED | 5.3.4 | PATCH | Ensure password hashing algorithm is SHA-512'
+  pamd:
+    name: '{{ item }}'
+    type: password
+    control: sufficient
+    module_path: 'pam_unix.so'
+    module_arguments: 'sha512'
+    state: args_present
+  ignore_errors: yes
+  loop:
+    - system-auth
+    - password-auth
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.3.4
+    - low
+
+
+# END # password sufficient pam_unix.so sha512 #
+
+# OLD # START #
+# - name: "SCORED | 5.3.4 | PATCH | Ensure password hashing algorithm is SHA-512"
+#   command: authconfig --passalgo=sha512 --update
+#   when:
+#     - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+#   tags:
+#     - level1
+#     - patch
+#     - rule_5.3.4
+# OLD # END #
+
+# - name: "SCORED | 5.3.2 | PATCH | Ensure lockout for failed password attempts is configured | /etc/pam.d/password-auth write changes"
+#   blockinfile:
+#       state: present
+#       dest: /etc/pam.d/password-auth
+#       insertbefore: '(^auth\s+required\s+pam_deny.so*)'
+#       block: |
+#         auth        required      pam_faillock.so preauth audit silent deny=5 unlock=900
+#         auth        [success=1 default=bad] pam_unix.so
+#         auth        [default=die] pam_faillock.so authfail audit deny=5 unlock_time=900
+#         auth        sufficient    pam_faillock.so authsucc audit deny=5 unlock_time=900
+#   tags:
+#       - level1
+#       - patch
+#       - rule_5.3.2
+#       - low
+
+# - name: "SCORED | 5.3.2 | PATCH | Ensure lockout for failed password attempts is configured | /etc/pam.d/system-auth write changes"
+#   blockinfile:
+#       state: present
+#       dest: /etc/pam.d/system-auth
+#       insertbefore: '(^auth\s+required\s+pam_deny.so*)'
+#       block: |
+#         auth        required      pam_faillock.so preauth audit silent deny=5 unlock=900
+#         auth        [success=1 default=bad] pam_unix.so
+#         auth        [default=die] pam_faillock.so authfail audit deny=5 unlock_time=900
+#         auth        sufficient    pam_faillock.so authsucc audit deny=5 unlock_time=900
+#   tags:
+#       - level1
+#       - patch
+#       - rule_5.3.2
+#       - low
+
+# OLD # END #
+
+- name: "SCORED | 5.4.1.1 | PATCH | Ensure password expiration is 365 days or less"
+  lineinfile:
+    state: present
+    dest: /etc/login.defs
+    regexp: '^PASS_MAX_DAYS'
+    line: 'PASS_MAX_DAYS 365'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_password_expiration is defined and amazonlinux2cis_password_expiration
+  tags:
+    - level1
+    - patch
+    - rule_5.4.1.1
+    - low
+
+- name: "SCORED | 5.4.1.2 | PATCH | Ensure minimum days between password changes is 7 or more"
+  lineinfile:
+    state: present
+    dest: /etc/login.defs
+    regexp: '^PASS_MIN_DAYS'
+    line: 'PASS_MIN_DAYS 7'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_password_minimum_days_password_change is defined and amazonlinux2cis_password_minimum_days_password_change
+  tags:
+    - level1
+    - patch
+    - rule_5.4.1.2
+    - low
+
+- name: "SCORED | 5.4.1.3 | PATCH | Ensure password expiration warning days is 7 or more"
+  lineinfile:
+    state: present
+    dest: /etc/login.defs
+    regexp: '^PASS_WARN_AGE'
+    line: 'PASS_WARN_AGE 7'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.4.1.3
+    - low
+
+- name: "SCORED | 5.4.1.4 | PATCH | Ensure inactive password lock is 30 days or less"
+  command: useradd -D -f 30
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.4.1.4
+    - low
+
+- name: "SCORED | 5.4.1.5 | Ensure all users last password change date is in the past (Scored)"
+  debug:
+    msg: 'Confirm all password change dates are in the past.'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.4.1.5
+    - low
+
+- name: "SCORED | 5.4.2 | PATCH | Ensure system accounts are non-login"
+  copy:
+    src: scripts/five_four_two.sh
+    dest: /opt/five_four_two.sh
+    owner: root
+    group: root
+    mode: 0700
+  changed_when: no
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_ensure_system_accounts_are_non_login is defined and amazonlinux2cis_ensure_system_accounts_are_non_login
+  tags:
+    - level1
+    - patch
+    - rule_5.4.2
+    - low
+
+- name: "SCORED | 5.4.2 | PATCH | Ensure system accounts are non-login"
+  shell: /opt/five_four_two.sh
+  args:
+    executable: /bin/bash
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_ensure_system_accounts_are_non_login is defined and amazonlinux2cis_ensure_system_accounts_are_non_login
+  tags:
+    - level1
+    - patch
+    - rule_5.4.2
+    - low
+
+- name: "SCORED | 5.4.2 | PATCH | Ensure system accounts are non-login"
+  file:
+    path: /opt/five_four_two.sh
+    owner: root
+    group: root
+    state: absent
+  changed_when: no
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_ensure_system_accounts_are_non_login is defined and amazonlinux2cis_ensure_system_accounts_are_non_login
+  tags:
+    - level1
+    - patch
+    - rule_5.4.2
+    - low
+
+- name: "SCORED | 5.4.3 | PATCH | Ensure default group for the root account is GID 0"
+  command: usermod -g 0 root
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.4.3
+    - low
+
+- name: "SCORED | 5.4.4 | PATCH | Ensure default user umask is 027 or more restrictive"
+  lineinfile:
+    state: present
+    dest: /etc/bashrc
+    regexp: 'umask'
+    line: 'umask {{ amazonlinux2cis_default_user_umask }}'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_modify_default_user_umask is defined and amazonlinux2cis_modify_default_user_umask
+  tags:
+    - level1
+    - patch
+    - rule_5.4.4
+    - low
+
+- name: "SCORED | 5.4.4 | PATCH | Ensure default user umask is 027 or more restrictive"
+  lineinfile:
+      state: present
+      dest: /etc/profile
+      regexp: 'umask'
+      line: 'umask {{ amazonlinux2cis_default_user_umask }}'
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_modify_default_user_umask is defined and amazonlinux2cis_modify_default_user_umask
+  tags:
+      - level1
+      - patch
+      - rule_5.4.4
+      - low
+
+- name: "SCORED | 5.4.4 | PATCH | Ensure default user umask is 027 or more restrictive"
+  find:
+    paths: /etc/profile.d/
+    recurse: yes
+    patterns: "*.sh"
+  register: profiled_dir
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_modify_default_user_umask is defined and amazonlinux2cis_modify_default_user_umask
+  tags:
+    - level1
+    - patch
+    - rule_5.4.4
+    - low
+
+- name: "SCORED | 5.4.4 | PATCH | Ensure default user umask is 027 or more restrictive"
+  lineinfile:
+    state: present
+    dest: "{{ item }}"
+    regexp: 'umask'
+    line: 'umask {{ amazonlinux2cis_default_user_umask }}'
+    backup: yes
+  with_items: profiled_dir.files.path
+  ignore_errors: yes
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+    - amazonlinux2cis_modify_default_user_umask is defined and amazonlinux2cis_modify_default_user_umask
+  tags:
+    - level1
+    - patch
+    - rule_5.4.4
+    - low
+
+- name: "SCORED | 5.4.5 | PATCH | Ensure default user shell timeout is 900 seconds or less"
+  lineinfile:
+    state: present
+    dest: /etc/bashrc
+    regexp: '^TMOUT'
+    line: 'TMOUT=600'
+  when:
+    - amazonlinux2cis_level2 is defined and amazonlinux2cis_level2
+  tags:
+    - level2
+    - patch
+    - rule_5.4.5
+    - low
+
+- name: "SCORED | 5.4.5 | PATCH | Ensure default user shell timeout is 900 seconds or less"
+  lineinfile:
+    state: present
+    dest: /etc/profile
+    regexp: '^TMOUT'
+    line: 'TMOUT=600'
+  when:
+    - amazonlinux2cis_level2 is defined and amazonlinux2cis_level2
+  tags:
+    - level2
+    - patch
+    - rule_5.4.5
+    - low
+
+- name: "SCORED | 5.6 | PATCH | Ensure access to the su command is restricted"
+  #lineinfile:
+  #  state: present
+  #  dest: /etc/group
+  #  regexp: '^wheel:x:10:(.*)$'
+  #  line: 'wheel:x:10:\1,root'
+  #  backrefs: yes
+  lineinfile:
+    regexp: "^auth\\s.*\\spam_wheel.so\\s"
+    line: "auth required pam_wheel.so use_uid"
+    dest: "/etc/pam.d/su"
+  when:
+    - amazonlinux2cis_level1 is defined and amazonlinux2cis_level1
+  tags:
+    - level1
+    - patch
+    - rule_5.6
+    - low
+- name: "SCORED | 5.6 | PATCH | Ensure access to the su command is restricted"
+  lineinfile:
+    regexp: "^wheel:"
+    line: "wheel:x:10:root"
+    dest: "/etc/group"
+  tags:
+    - level1
+    - patch
+    - rule_5.6
+    - low

@@ -1,0 +1,244 @@
+---
+## START COPYRIGHT NOTICE ##
+# AmazonLinux2-CIS Ansible Script
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+## END COPYRIGHT NOTICE ##
+# defaults file for AmazonLinux2CIS
+
+# Define what sections to run
+amazonlinux2cis_notauto: false
+amazonlinux2cis_section1: true
+amazonlinux2cis_section2: true
+amazonlinux2cis_section3: true
+amazonlinux2cis_section4: true
+amazonlinux2cis_section5: true
+amazonlinux2cis_section6: true
+
+# Set to true to run either level1, level2, or set both to true to run level1 and level2 checks.
+amazonlinux2cis_level1: true
+amazonlinux2cis_level2: true
+
+############################
+### Section 1 Parameters ###
+############################
+
+# Section AIDE #
+
+# Section 1.3.1 | Ensure AIDE is installed and configured
+amazonlinux2cis_config_aide: true
+
+# Section 1.3.2 | Ensure filestystem integrity is regularly checked | AIDE cron settings
+amazonlinux2cis_aide_cron:
+  cron_user: root
+  cron_file: /etc/crontab
+  aide_job: '/usr/sbin/aide --check'
+  aide_minute: 0
+  aide_hour: 5
+  aide_day: '*'
+  aide_month: '*'
+  aide_weekday: '*'
+
+# SELinux Section #
+
+# Section 1.6.1.2 & 1.6.1.3 | Ensure SELinux state is enforcing and configured
+# true = SELinux is set to enforcing | false = SELinux is not set to enforcing
+amazonlinux2cis_selinux_disable: false
+# Section 1.6.1.2 & 1.6.1.3 | SELinux policy
+amazonlinux2cis_selinux_pol: targeted
+
+# MOTD Section #
+
+# Disable Amazon Linux update-motd script
+# set to true to enable custom motd to be properly set
+amazonlinux2cis_disable_auto_motd: true
+# Section 1.7.1.1 | Ensure message of the day is configured properly
+amazonlinux2cis_set_motd: true
+# Warning Banner Content (issue, issue.net, motd)
+amazonlinux2cis_warning_banner: |
+    Authorized uses only. All activity may be monitored and reported.
+# End Banner
+
+# System package updates #
+
+# Section 1.8 | Ensure updates of software repos and system packages are up-to-date | Run yum update
+amazonlinux2cis_update: false
+
+############################
+### Section 2 Parameters ###
+############################
+# Set this to false to prevent disabling of services.
+# Value of true will disable all services not excluded or skipped using the var booleans below.
+# The disable_service_checks can also be enabled via the skip tag function by skipping "disable_service_checks" tag to the running playbook
+amazonlinux2cis_disable_service_checks: true
+
+# Set this value to true if the machine is joined to AD/LDAP server.
+# Set this value to false if the machine is not joined to AD/LDAP server.
+amazonlinux2cis_ad_ldap_joined_machine: true
+
+# Service configuration booleans set true to keep service
+amazonlinux2cis_cups_server: false
+amazonlinux2cis_dhcp_server: false
+amazonlinux2cis_ldap_server: false
+amazonlinux2cis_telnet_server: false
+amazonlinux2cis_nfs_server: false
+amazonlinux2cis_rpc_server: false
+amazonlinux2cis_ntalk_server: false
+amazonlinux2cis_rsyncd_server: false
+amazonlinux2cis_tftp_server: false
+amazonlinux2cis_rsh_server: false
+amazonlinux2cis_nis_server: false
+amazonlinux2cis_snmp_server: false
+amazonlinux2cis_squid_server: false
+amazonlinux2cis_smb_server: false
+amazonlinux2cis_dovecot_server: false
+amazonlinux2cis_httpd_server: false
+amazonlinux2cis_vsftpd_server: false
+amazonlinux2cis_named_server: false
+amazonlinux2cis_nfs_rpc_server: false
+amazonlinux2cis_is_mail_server: false
+amazonlinux2cis_bind: false
+amazonlinux2cis_vsftpd: false
+amazonlinux2cis_httpd: false
+amazonlinux2cis_dovecot: false
+amazonlinux2cis_samba: false
+amazonlinux2cis_squid: false
+amazonlinux2cis_net_snmp: false
+amazonlinux2cis_allow_autofs: false
+
+amazonlinux2cis_openldap_clients_required: false
+amazonlinux2cis_telnet_required: false
+amazonlinux2cis_talk_required: false
+amazonlinux2cis_rsh_required: false
+amazonlinux2cis_ypbind_required: false
+
+# Section 2.1.11 | Ensure xinetd is not enabled
+# xinetd required
+amazonlinux2cis_xinetd_required: false
+
+# Section 2.2.1.x | Time synchronization #
+# Time Synchronization - Use chrony or ntp
+amazonlinux2cis_time_synchronization: chrony
+
+# Section 2.2.1.2 OR Section 2.2.1.3 | Ensure chrony or ntp is configured
+# Use 169.254.169.123 within AWS to use local instance NTP server
+amazonlinux2cis_time_synchronization_servers:
+    - 169.254.169.123
+#    - 0.pool.ntp.org
+#    - 1.pool.ntp.org
+#    - 2.pool.ntp.org
+#    - 3.pool.ntp.org
+
+# Section 2.2.2 | Ensure X Window System is not installed
+# Set to 'true' if X Windows is needed in your environment
+amazonlinux2cis_xwindows_required: no
+
+# Section 2.2.3 | Ensure avahi server is not enabled
+amazonlinux2cis_avahi_server: false
+
+############################
+### Section 3 Parameters ###
+############################
+
+# Section 3.1.1 & 3.1.2 | Ensure IP forwarding is disabled and Ensure packet redirect sending is disabled
+# These rules can only be configured on non-host and router configurations
+
+# System network parameters (host only OR host and router)
+# if host only = false OR host and router = true
+amazonlinux2cis_is_router: false
+
+# IPv6 required
+amazonlinux2cis_ipv6_required: false
+
+# Section 3.4.2 | Ensure /etc/hosts.allow is configured
+amazonlinux2cis_host_allow:
+    - "10.0.0.0/255.0.0.0"
+    - "172.16.0.0/255.240.0.0"
+    - "192.168.0.0/255.255.0.0"
+
+# 3.4.3 | Ensure /etc/hosts.deny is configured
+amazonlinux2cis_enable_hosts_deny: false
+
+# Section 3.6.1 | Ensure iptables is installed
+# Selection of firewall package to use below | default: iptables
+amazonlinux2cis_firewall: iptables
+# Section 3.6.2 | Ensure default deny firewall policy
+amazonlinux2cis_firewall_default_deny_rule: false
+# Section 3.6.3 | Ensure loopback traffic is configured
+amazonlinux2cis_firewall_loopback_rule: true
+# Section 3.6.4 | Ensure outbound and established connections are configured
+amazonlinux2cis_firewall_outbound_rule: true
+
+############################
+### Section 4 Parameters ###
+############################
+
+# 4.1.2 - Enable auditd
+amazonlinux2cis_enable_auditd: true
+
+# System Accounting and Logging
+# Set logging service to 'true'
+amazonlinux2cis_log_server: false
+
+# Enable system auditing | Select rsyslog or syslog_ng from the settings below #
+# rsyslog settings are sections 4.2.1.x
+# syslog_ng settings are sections 4.2.2.x
+
+# Section 4.2.1.x | rsyslog settings
+# IF using rsyslog, set to true and loghost_address should be reflected here
+amazonlinux2cis_rsyslog: false
+amazonlinux2cis_rsyslog_loghost_address: "log.example.com"
+
+# Section 4.2.2.x | syslog_ng settings
+# IF using syslog_ng, set to true and loghost_address should be reflected here
+amazonlinux2cis_syslog_ng: false
+amazonlinux2cis_syslog_ng_loghost_address: "log.example.com"
+
+############################
+### Section 5 Parameters ###
+############################
+
+# Section 5.1.8 | Ensure at/cron is restricted to authorized users
+amazonlinux2cis_cron_allow_apply_template: true
+
+# Section 5.2.13 | Ensure only strong ciphers are used
+amazonlinux2cis_ssh_ciphers: "chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr"
+
+# Section 5.2.14 | Ensure only strong MAC algorithms are used
+amazonlinux2cis_ssh_mac_algorithms: "hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com"
+
+# Section 5.2.15 | Ensure that strong Key Exchange algorithms are used
+amazonlinux2cis_ssh_kex_algorithms: "curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256"
+
+# Section 5.4.1.1 | Ensure password expiration is 365 days or less
+amazonlinux2cis_password_expiration: true
+
+# Section 5.4.1.2 | Ensure minimum days between password changes is 7 or more
+amazonlinux2cis_password_minimum_days_password_change: true
+
+# Section 5.4.2 | Ensure system accounts are non-login
+amazonlinux2cis_ensure_system_accounts_are_non_login: true
+
+# Section 5.4.4 | Ensure default user umask is 027 or more restrictive
+amazonlinux2cis_modify_default_user_umask: true
+amazonlinux2cis_default_user_umask: 027
+
+############################
+### Section 6 Parameters ###
+############################
+
+# Section 6.2.8 | Ensure users' home directory permissions are 750 or more restrictive
+amazonlinux2cis_modify_user_homes: true
+
+# Section 6.2.11 | Ensure no users have .forward files
+amazonlinux2cis_modify_dot_forward_files: false
+
+# Section 6.2.12 | Ensure no users have .netrc files
+amazonlinux2cis_modify_dot_netrc_files: false
+
+# Section 6.2.13 | Ensure users' .netrc files are not group or world accessible
+amazonlinux2cis_modify_dot_netrc_files_group: false
+
+# Section 6.2.14 | Ensure no users have .rhosts files
+amazonlinux2cis_modify_dot_rhosts_files: false

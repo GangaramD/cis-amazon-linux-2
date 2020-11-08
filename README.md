@@ -33,7 +33,7 @@ A reboot will be neccessary for the changes to take effect.
 
 ## Role
 ```
-role: AmazonLinux-2-CIS
+role: CIS_awslinux2_Benchmark
 ```
 ## Role/Playbook Tags
 ```
@@ -59,8 +59,13 @@ Refer to defaults/main.yml for other vars
 ```
 ## Sample Playbook.ymls
 ```
-Refer to AmazonLinux-2-CIS_Benchmark_(level1, level1_and_level2, or level2).ymls for sample playbook.ymls. Change the role to match role folder name.
+Refer to CIS_awslinux2_Benchmark_(level1, level1_and_level2, or level2).ymls for sample playbook.ymls. Change the role to match role folder name.
 ```
+
+## Running the playbook
+
+```
+ansible-playbook -i inventory CIS_awslinux2_Benchmark/CIS_awslinux2_Benchmark-L1-L2.yml -vv
 ## License
 This Source Code Form is subject to the terms of the Mozilla Public
 License, v. 2.0. If a copy of the MPL was not distributed with this
